@@ -1,0 +1,4 @@
+200c197
+< LC_ALL=C PYTHONHASHSEED=0 chroot . dpkg -i --path-include="/usr/share/doc/*" "${deb_list[@]}"
+---
+> LC_ALL=C PYTHONHASHSEED=0 chroot . dpkg -i --path-include="/usr/share/doc/*" --force-overwrite "${deb_list[@]}"

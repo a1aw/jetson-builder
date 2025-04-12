@@ -1,0 +1,43 @@
+FROM ubuntu:22.04
+
+ENV L4T_VERSION=36
+
+RUN cp /etc/apt/sources.list /etc/apt/sources.list~; \
+    sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+
+ARG DEBIAN_FRONTEND=noninteractive
+RUN ln -fs /usr/share/zoneinfo/Asia/Hong_Kong /etc/localtime
+RUN apt-get update; \
+    apt-get install -y \
+        tzdata \
+        rsync \
+        tmux \
+        nano \
+        vim \
+        htop \
+        tree \
+        ncdu \
+        wget \
+        curl \
+        iputils-ping \
+        cron \
+        systemd; \
+    rm -rf /var/lib/apt/lists/*;
+
+RUN apt-get update; \
+    apt-get install -y build-essential git sudo zip; \
+    rm -rf /var/lib/apt/lists/*;
+
+RUN cd /build/Linux_for_Tegra; \
+    ./tools/l4t_flash_prerequisites.sh; \
+    rm -rf /var/lib/apt/lists/*;
+
+ARG USER_ID=1001
+ARG GROUP_ID=1001
+RUN groupadd -g $GROUP_ID -o user; \
+    useradd -m -u $USER_ID -g $GROUP_ID -o -s /bin/bash user; \
+    adduser user sudo; \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers;
+
+USER user
+WORKDIR /build
