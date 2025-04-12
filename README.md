@@ -1,5 +1,5 @@
 # jetson-builder
-A container-based Jetson series build and flash environment. Currently this script only builds a Ubuntu 24.04 rootfs.
+(Work-in-progress) A container-based Jetson series build and flash environment. Currently this script only builds a Ubuntu 24.04 rootfs.
 
 > At the time of writing (9th March 2025), NVIDIA does not have support for Ubuntu noble 24.04 yet.
 >
@@ -79,6 +79,8 @@ Instead of creating an image file, this project aims to reuse the NVIDIA provide
     -c tools/kernel_flash/flash_l4t_t234_nvme.xml -p "-c bootloader/generic/cfg/flash_t234_qspi.xml" \
     --showlogs --network usb0 jetson-orin-nano-devkit-super nvme0n1p1
     ```
+
+> :warning: Flashing directly inside container is still work-in-progress. The above command flashing to NVME does not work inside container, yet. It will output an error related to NFS server.
 
 ## Build environment
 
