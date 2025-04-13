@@ -4,11 +4,13 @@ set -o xtrace
 
 L4T_VERSION=36
 BSP_URL=https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v4.3/release/Jetson_Linux_r36.4.3_aarch64.tbz2
+SRC_URL=https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v4.3/sources/public_sources.tbz2
 WORKING_DIR=$(pwd)
 
 mkdir -p build
 sudo chown $USER:$USER build
 wget -qO- $BSP_URL | tar -jxpf - -C build
+wget -qO- $SRC_URL | tar -jxpf - -C build
 
 pushd build/Linux_for_Tegra
 patch nv_tegra/nv-apply-debs.sh < $WORKING_DIR/patches/0001-nv-apply-debs-force-overwrite.diff
